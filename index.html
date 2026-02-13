@@ -2,101 +2,189 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Our World 💖</title>
+
 <style>
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+/* 💖 Heart Cursor */
 body {
-  margin: 0;
-  height: 100vh;
-  font-family: 'Arial', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+  cursor: url("https://cur.cursors-4u.net/symbols/sym-1/sym57.cur"), auto;
+  background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
   overflow: hidden;
+  color: white;
 }
 
-#passwordScreen, #ecard {
+/* 🌸 Landing */
+#ecard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-input[type="password"] {
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  margin-top: 20px;
-  font-size: 16px;
-}
+#ecard h1 { font-size: 3rem; margin-bottom: 10px; }
+#ecard p { font-size: 1.2rem; margin-bottom: 30px; }
 
 button {
-  padding: 12px 25px;
+  padding: 15px 40px;
+  font-size: 1.2rem;
   border: none;
   border-radius: 30px;
-  background: #ff4b5c;
-  color: white;
-  font-size: 16px;
+  background: pink;
   cursor: pointer;
-  margin-top: 10px;
+  transition: 0.4s;
+}
+button:hover { transform: scale(1.1); }
+
+/* 📖 Slideshow */
+#slideshowContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 450px;
+  opacity: 0;
+  overflow: hidden;
 }
 
-button:hover {
-  background: #ff2e44;
+/* Slide style */
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
+.slide img, .slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: zoomMove 6s ease-in-out infinite alternate;
+}
+
+/* 🎥 Zoom / Pan */
+@keyframes zoomMove {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1) translateX(-10px); }
+  100% { transform: scale(1); }
+}
+
+/* ⏳ Countdown */
+#countdown {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  opacity: 0;
+}
+
+/* 💌 Secret Message */
+.secret {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0;
+  transition: 0.5s;
+}
+.slide:hover .secret { opacity: 1; }
+
+/* ✨ Floating Hearts */
 .heart {
   position: absolute;
-  color: red;
+  color: pink;
   font-size: 20px;
-  animation: float 6s infinite;
+  animation: float 6s linear infinite;
 }
-
 @keyframes float {
-  0% {transform: translateY(0); opacity: 1;}
-  100% {transform: translateY(-600px); opacity: 0;}
+  0% { transform: translateY(100vh); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
+
 <body>
 
-<div id="passwordScreen">
-  <h1>Enter the Secret Code ❤️</h1>
-  <p>Hint: Our special date 🌟</p>
-  <input type="password" id="pwd" placeholder="DD.MM.YYYY">
-  <br>
-  <button onclick="checkPassword()">Enter</button>
-  <p id="error" style="color:red; display:none;">Wrong code! Try again 💔</p>
-</div>
+<audio id="bgMusic" src="song.mp3"></audio>
 
-<div id="ecard" style="display:none;">
-  <h1>Hey My Love ❤️</h1>
-  <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
+<div id="ecard">
+  <h1>For You 💖</h1>
+  <p>Welcome to our little world</p>
   <button onclick="enterWorld()">Enter Our World ✨</button>
 </div>
 
+<!-- 📖 Slideshow -->
+<div id="slideshowContainer">
+  <!-- Images -->
+  <div class="slide"><img src="image1.jpeg"><div class="secret">You are my favorite chapter ❤️</div></div>
+  <div class="slide"><img src="image2.jpeg"><div class="secret">Every moment with you matters 💫</div></div>
+  <div class="slide"><img src="image3.jpeg"><div class="secret">Forever starts with us 💍</div></div>
+  <div class="slide"><img src="image4.jpeg"><div class="secret">I smile every time I see you 🥰</div></div>
+  <div class="slide"><img src="image5.jpeg"><div class="secret">Our memories are treasures 💖</div></div>
+  <div class="slide"><img src="image6.jpeg"><div class="secret">You make my heart full 💓</div></div>
+  <div class="slide"><img src="image7.jpeg"><div class="secret">Every day is better with you 🌟</div></div>
+  <div class="slide"><video src="video1.mp4" autoplay muted loop></video><div class="secret">Distance means nothing 💞</div></div>
+  <div class="slide"><video src="video2.mp4" autoplay muted loop></video><div class="secret">Our love grows every day ❤️</div></div>
+  <div class="slide"><video src="video3.mp4" autoplay muted loop></video><div class="secret">Can’t wait to hug you 🥹</div></div>
+  <div class="slide"><img src="image8.jpeg"><div class="secret">This page is dedicated to you 💗</div></div>
+  <div class="slide"><img src="image9.jpeg"><div class="secret">Our story is my favorite book 📖</div></div>
+  <div class="slide"><img src="image10.jpeg"><div class="secret">I fall in love with you again 💘</div></div>
+  <div class="slide"><img src="image11.jpeg"><div class="secret">You are my everything 💞</div></div>
+</div>
+
+<div id="countdown">⏳ Our time together keeps growing…</div>
+
 <script>
-function checkPassword() {
-  const password = document.getElementById('pwd').value;
-  if(password === '13.08.2023') {
-    document.getElementById('passwordScreen').style.display = 'none';
-    document.getElementById('ecard').style.display = 'block';
-  } else {
-    document.getElementById('error').style.display = 'block';
-  }
-}
-
 function enterWorld() {
-  alert("More surprises are waiting for you 💕");
+  document.getElementById("bgMusic").play();
+
+  document.getElementById("ecard").style.opacity = 0;
+  setTimeout(() => { document.getElementById("ecard").style.display = "none"; }, 1500);
+
+  document.getElementById("slideshowContainer").style.opacity = 1;
+  document.getElementById("countdown").style.opacity = 1;
+
+  createHearts();
+  startSlideshow();
 }
 
-// Floating hearts effect
-setInterval(() => {
-  let heart = document.createElement("div");
-  heart.className = "heart";
-  heart.innerHTML = "❤️";
-  heart.style.left = Math.random() * window.innerWidth + "px";
-  heart.style.top = "100%";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 6000);
-}, 500);
+/* 💕 Floating Hearts */
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 400);
+}
+
+/* 🎞 Smooth Slideshow */
+function startSlideshow() {
+  const slides = document.querySelectorAll(".slide");
+  let index = 0;
+  slides.forEach(slide => slide.style.opacity = 0);
+  slides[0].style.opacity = 1;
+
+  setInterval(() => {
+    slides[index].style.opacity = 0;
+    index = (index + 1) % slides.length;
+    slides[index].style.opacity = 1;
+  }, 4000); // 4 seconds per slide
+}
 </script>
 
 </body>
