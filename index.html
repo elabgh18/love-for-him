@@ -53,10 +53,17 @@ button:hover {
   0% {transform: translateY(0); opacity: 1;}
   100% {transform: translateY(-600px); opacity: 0;}
 }
+
+#slideshow img, #slideshow video {
+  width: 300px;
+  border-radius: 15px;
+  max-height: 300px;
+}
 </style>
 </head>
 <body>
 
+<!-- Password Screen -->
 <div id="passwordScreen">
   <h1>Enter the Secret Code ❤️</h1>
   <p>Hint: Our special date 🌟</p>
@@ -66,13 +73,25 @@ button:hover {
   <p id="error" style="color:red; display:none;">Wrong code! Try again 💔</p>
 </div>
 
+<!-- Main E-Card -->
 <div id="ecard" style="display:none;">
+  <!-- Background music -->
+  <audio id="bgMusic" loop>
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+
   <h1>Hey My Love ❤️</h1>
   <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
   <button onclick="enterWorld()">Enter Our World ✨</button>
+
+  <!-- Slideshow -->
+  <div id="slideshow" style="margin-top:20px;">
+    <img id="slideMedia" src="image1.jpeg">
+  </div>
 </div>
 
 <script>
+// Password check
 function checkPassword() {
   const password = document.getElementById('pwd').value;
   if(password === '13.08.2023') {
@@ -83,7 +102,9 @@ function checkPassword() {
   }
 }
 
+// Play music when entering
 function enterWorld() {
+  document.getElementById('bgMusic').play();
   alert("More surprises are waiting for you 💕");
 }
 
@@ -94,9 +115,46 @@ setInterval(() => {
   heart.innerHTML = "❤️";
   heart.style.left = Math.random() * window.innerWidth + "px";
   heart.style.top = "100%";
+  heart.style.fontSize = (15 + Math.random() * 20) + "px";
+  heart.style.animationDuration = (4 + Math.random() * 3) + "s";
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
 }, 500);
+
+// Slideshow with images and videos
+const slides = [
+  {type:"image", src:"image1.jpeg"}, {type:"image", src:"image2.jpeg"}, {type:"image", src:"image3.jpeg"},
+  {type:"image", src:"image4.jpeg"}, {type:"image", src:"image5.jpeg"}, {type:"image", src:"image6.jpeg"},
+  {type:"image", src:"image7.jpeg"}, {type:"image", src:"image8.jpeg"}, {type:"image", src:"image9.jpeg"},
+  {type:"image", src:"image10.jpeg"}, {type:"image", src:"image11.jpeg"},
+  {type:"video", src:"video1.mp4"}, {type:"video", src:"video2.mp4"}, {type:"video", src:"video3.mp4"}
+];
+
+let current = 0;
+setInterval(() => {
+  current = (current + 1) % slides.length;
+  const slide = slides[current];
+  const container = document.getElementById("slideMedia");
+
+  if(slide.type === "image") {
+    const img = document.createElement("img");
+    img.src = slide.src;
+    img.id = "slideMedia";
+    img.style.width = "300px";
+    img.style.borderRadius = "15px";
+    container.replaceWith(img);
+  } else if(slide.type === "video") {
+    const video = document.createElement("video");
+    video.src = slide.src;
+    video.id = "slideMedia";
+    video.style.width = "300px";
+    video.style.borderRadius = "15px";
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true;
+    container.replaceWith(video);
+  }
+}, 3000);
 </script>
 
 </body>
