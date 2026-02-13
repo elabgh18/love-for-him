@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>For You ❤️</title>
+<!-- Google Fonts for handwritten style -->
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
 body {
   margin: 0;
@@ -54,10 +56,32 @@ button:hover {
   100% {transform: translateY(-600px); opacity: 0;}
 }
 
+#valentineText {
+  font-family: 'Pacifico', cursive;
+  font-size: 2em;
+  margin-bottom: 15px;
+  color: #ff0011;
+  animation: fadeInText 2s ease forwards;
+}
+
+@keyframes fadeInText {
+  0% { opacity: 0; transform: scale(0.8);}
+  100% { opacity: 1; transform: scale(1);}
+}
+
+#ecard h1, #ecard p, #ecard button {
+  animation: fadeInText 2s ease forwards;
+}
+
 #slideshow img, #slideshow video {
   width: 300px;
   border-radius: 15px;
   max-height: 300px;
+  transition: transform 0.5s ease, opacity 0.8s ease;
+}
+
+#slideshow img:hover, #slideshow video:hover {
+  transform: scale(1.05);
 }
 </style>
 </head>
@@ -79,6 +103,9 @@ button:hover {
   <audio id="bgMusic" loop>
     <source src="song.mp3" type="audio/mpeg">
   </audio>
+
+  <!-- Valentine Text -->
+  <h2 id="valentineText">❤️ Happy Valentine’s Day ❤️</h2>
 
   <h1>Hey My Love ❤️</h1>
   <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
@@ -121,7 +148,7 @@ setInterval(() => {
   setTimeout(() => heart.remove(), 6000);
 }, 500);
 
-// Slideshow with images and videos
+// Slideshow with images and videos + fade
 const slides = [
   {type:"image", src:"image1.jpeg"}, {type:"image", src:"image2.jpeg"}, {type:"image", src:"image3.jpeg"},
   {type:"image", src:"image4.jpeg"}, {type:"image", src:"image5.jpeg"}, {type:"image", src:"image6.jpeg"},
@@ -131,30 +158,44 @@ const slides = [
 ];
 
 let current = 0;
+
+function showSlide(slide) {
+  const container = document.getElementById("slideMedia");
+  // fade out current
+  container.style.opacity = 0;
+
+  setTimeout(() => {
+    if(slide.type === "image") {
+      const img = document.createElement("img");
+      img.src = slide.src;
+      img.id = "slideMedia";
+      img.style.width = "300px";
+      img.style.borderRadius = "15px";
+      img.style.transition = "opacity 0.8s ease";
+      container.replaceWith(img);
+    } else if(slide.type === "video") {
+      const video = document.createElement("video");
+      video.src = slide.src;
+      video.id = "slideMedia";
+      video.style.width = "300px";
+      video.style.borderRadius = "15px";
+      video.autoplay = true;
+      video.loop = true;
+      video.muted = true;
+      video.style.transition = "opacity 0.8s ease";
+      container.replaceWith(video);
+    }
+    // fade in new
+    const newContainer = document.getElementById("slideMedia");
+    newContainer.style.opacity = 0;
+    setTimeout(() => newContainer.style.opacity = 1, 50);
+  }, 800);
+}
+
 setInterval(() => {
   current = (current + 1) % slides.length;
-  const slide = slides[current];
-  const container = document.getElementById("slideMedia");
-
-  if(slide.type === "image") {
-    const img = document.createElement("img");
-    img.src = slide.src;
-    img.id = "slideMedia";
-    img.style.width = "300px";
-    img.style.borderRadius = "15px";
-    container.replaceWith(img);
-  } else if(slide.type === "video") {
-    const video = document.createElement("video");
-    video.src = slide.src;
-    video.id = "slideMedia";
-    video.style.width = "300px";
-    video.style.borderRadius = "15px";
-    video.autoplay = true;
-    video.loop = true;
-    video.muted = true;
-    container.replaceWith(video);
-  }
-}, 3000);
+  showSlide(slides[current]);
+}, 3500);
 </script>
 
 </body>
