@@ -5,6 +5,7 @@
 <title>For You ❤️</title>
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
+/* --- General Body --- */
 body {
   margin: 0;
   height: 100vh;
@@ -15,6 +16,7 @@ body {
   align-items: center;
   background: linear-gradient(120deg, #ff9a9e, #fad0c4);
   overflow: hidden;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><text y="24" font-size="32">❤️</text></svg>') 16 16, auto;
 }
 
 #passwordScreen, #ecard {
@@ -44,6 +46,7 @@ button:hover {
   background: #ff2e44;
 }
 
+/* --- Text Animations --- */
 #valentineText {
   font-family: 'Pacifico', cursive;
   font-size: 2em;
@@ -61,7 +64,7 @@ button:hover {
   animation: fadeInText 2s ease forwards;
 }
 
-/* Slideshow container */
+/* --- Slideshow Container --- */
 #slideshowContainer {
   width: 320px;
   height: 320px;
@@ -69,25 +72,37 @@ button:hover {
   margin-top: 20px;
   overflow: hidden;
   border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+  perspective: 1000px;
 }
 
 .slide {
   position: absolute;
   top: 0;
-  left: 100%; /* start outside right */
+  left: 100%;
   width: 320px;
   height: 320px;
   object-fit: cover;
   opacity: 0;
   transition: all 1s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
 
+/* Active slide */
 .slide.active {
   left: 0;
   opacity: 1;
+  animation: zoomPan 5s ease forwards;
 }
 
+/* Zoom + Pan Effect */
+@keyframes zoomPan {
+  0% { transform: scale(1) translate(0,0);}
+  50% { transform: scale(1.05) translate(-5px,-5px);}
+  100% { transform: scale(1) translate(0,0);}
+}
+
+/* --- Sparkles --- */
 #sparkles {
   position: absolute;
   width: 100%;
@@ -112,6 +127,7 @@ button:hover {
   100% { transform: translateY(-400px) scale(0.5);}
 }
 
+/* --- Floating Hearts --- */
 .heart {
   position: absolute;
   color: red;
@@ -120,8 +136,8 @@ button:hover {
 }
 
 @keyframes float {
-  0% {transform: translateY(0); opacity: 1;}
-  100% {transform: translateY(-600px); opacity: 0;}
+  0% {transform: translateY(0) opacity: 1;}
+  100% {transform: translateY(-600px) opacity: 0;}
 }
 </style>
 </head>
@@ -186,7 +202,7 @@ setInterval(() => {
   setTimeout(() => heart.remove(), 6000);
 }, 500);
 
-// Floating sparkles
+// Sparkles
 function createSparkles() {
   const container = document.getElementById("sparkles");
   for(let i=0;i<30;i++){
@@ -200,24 +216,34 @@ function createSparkles() {
 }
 createSparkles();
 
-// Slides
+// Slides + secret messages
 const slides = [
-  "image1.jpeg","image2.jpeg","image3.jpeg","image4.jpeg","image5.jpeg","image6.jpeg",
-  "image7.jpeg","image8.jpeg","image9.jpeg","image10.jpeg","image11.jpeg",
-  "video1.mp4","video2.mp4","video3.mp4"
+  {src:"image1.jpeg", msg:"Remember our first kiss? 💋"},
+  {src:"image2.jpeg", msg:"This was our happiest day 😍"},
+  {src:"image3.jpeg", msg:"Can't wait to see you again! ❤️"},
+  {src:"image4.jpeg", msg:"A memory we’ll never forget 💕"},
+  {src:"image5.jpeg", msg:"Every moment with you is magic ✨"},
+  {src:"image6.jpeg", msg:"Love you more each day 😘"},
+  {src:"image7.jpeg", msg:"You make me smile 😍"},
+  {src:"image8.jpeg", msg:"Always in my heart 💖"},
+  {src:"image9.jpeg", msg:"Our adventures together 🌍"},
+  {src:"image10.jpeg", msg:"Thinking of you ❤️"},
+  {src:"image11.jpeg", msg:"Forever us 💞"},
+  {src:"video1.mp4", msg:"A special memory 🎥"},
+  {src:"video2.mp4", msg:"Smile for me 😘"},
+  {src:"video3.mp4", msg:"Love is forever 💖"}
 ];
 
 let current = 0;
 const container = document.getElementById("slideshowContainer");
 
 function showSlide(index){
-  // Remove previous slide
   const prev = container.querySelector(".slide");
   if(prev) prev.remove();
 
   let slideEl;
-  const src = slides[index];
-  if(src.endsWith(".mp4")){
+  const slide = slides[index];
+  if(slide.src.endsWith(".mp4")){
     slideEl = document.createElement("video");
     slideEl.autoplay = true;
     slideEl.loop = true;
@@ -225,9 +251,12 @@ function showSlide(index){
   } else {
     slideEl = document.createElement("img");
   }
-  slideEl.src = src;
+  slideEl.src = slide.src;
   slideEl.className = "slide active";
   container.appendChild(slideEl);
+
+  // Click to show secret message
+  slideEl.onclick = () => alert(slide.msg);
 }
 
 // Start slideshow
