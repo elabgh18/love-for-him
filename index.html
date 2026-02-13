@@ -139,6 +139,13 @@ button:hover {
   0% {transform: translateY(0) opacity: 1;}
   100% {transform: translateY(-600px) opacity: 0;}
 }
+
+/* --- Countdown Timer --- */
+#countdown {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #ff0011;
+}
 </style>
 </head>
 <body>
@@ -168,6 +175,11 @@ button:hover {
   <!-- Slideshow -->
   <div id="slideshowContainer">
     <div id="sparkles"></div>
+  </div>
+
+  <!-- Countdown -->
+  <div id="countdown">
+    Next meeting in: <span id="time"></span>
   </div>
 </div>
 
@@ -265,6 +277,28 @@ setInterval(()=>{
   current = (current+1)%slides.length;
   showSlide(current);
 }, 3500);
+
+// Countdown Timer
+const targetDate = new Date("2026-03-10 18:00:00").getTime(); // Change this date!
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = targetDate - now;
+
+  if(distance < 0){
+    document.getElementById("time").innerHTML = "We are together now! ❤️";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000*60*60*24));
+  const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+  const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+  const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+  document.getElementById("time").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
 </script>
 
 </body>
