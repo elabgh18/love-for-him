@@ -61,26 +61,31 @@ button:hover {
   animation: fadeInText 2s ease forwards;
 }
 
+/* Slideshow container */
 #slideshowContainer {
   width: 320px;
   height: 320px;
   position: relative;
   margin-top: 20px;
   overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 .slide {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 100%; /* start outside right */
   width: 320px;
   height: 320px;
   object-fit: cover;
-  clip-path: polygon(
-    50% 0%, 61% 14%, 75% 14%, 85% 25%, 90% 40%, 75% 60%, 
-    50% 80%, 25% 60%, 10% 40%, 15% 25%, 25% 14%, 39% 14%
-  );
   opacity: 0;
+  transition: all 1s ease;
+}
+
+.slide.active {
+  left: 0;
+  opacity: 1;
 }
 
 #sparkles {
@@ -118,7 +123,6 @@ button:hover {
   0% {transform: translateY(0); opacity: 1;}
   100% {transform: translateY(-600px); opacity: 0;}
 }
-
 </style>
 </head>
 <body>
@@ -135,7 +139,6 @@ button:hover {
 
 <!-- Main E-Card -->
 <div id="ecard" style="display:none;">
-  <!-- Background music -->
   <audio id="bgMusic" loop>
     <source src="song.mp3" type="audio/mpeg">
   </audio>
@@ -146,10 +149,9 @@ button:hover {
   <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
   <button onclick="enterWorld()">Enter Our World ✨</button>
 
-  <!-- Slideshow Container -->
+  <!-- Slideshow -->
   <div id="slideshowContainer">
     <div id="sparkles"></div>
-    <!-- Slides will be injected here -->
   </div>
 </div>
 
@@ -205,17 +207,17 @@ const slides = [
   "video1.mp4","video2.mp4","video3.mp4"
 ];
 
-let currentSlide = 0;
+let current = 0;
 const container = document.getElementById("slideshowContainer");
 
-function showSlide(index) {
-  // remove previous slide
+function showSlide(index){
+  // Remove previous slide
   const prev = container.querySelector(".slide");
   if(prev) prev.remove();
 
   let slideEl;
   const src = slides[index];
-  if(src.endsWith(".mp4")) {
+  if(src.endsWith(".mp4")){
     slideEl = document.createElement("video");
     slideEl.autoplay = true;
     slideEl.loop = true;
@@ -224,20 +226,15 @@ function showSlide(index) {
     slideEl = document.createElement("img");
   }
   slideEl.src = src;
-  slideEl.className = "slide";
-  slideEl.style.opacity = 0;
+  slideEl.className = "slide active";
   container.appendChild(slideEl);
-
-  // fade in
-  setTimeout(()=>slideEl.style.transition="opacity 1s ease", 50);
-  setTimeout(()=>slideEl.style.opacity=1, 100);
 }
 
 // Start slideshow
-showSlide(currentSlide);
+showSlide(current);
 setInterval(()=>{
-  currentSlide = (currentSlide+1)%slides.length;
-  showSlide(currentSlide);
+  current = (current+1)%slides.length;
+  showSlide(current);
 }, 3500);
 </script>
 
