@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>For You ❤️</title>
-<!-- Google Fonts for handwritten style -->
 <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 <style>
 body {
@@ -11,6 +10,7 @@ body {
   height: 100vh;
   font-family: 'Arial', sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: linear-gradient(120deg, #ff9a9e, #fad0c4);
@@ -44,22 +44,10 @@ button:hover {
   background: #ff2e44;
 }
 
-.heart {
-  position: absolute;
-  color: red;
-  font-size: 20px;
-  animation: float 6s infinite;
-}
-
-@keyframes float {
-  0% {transform: translateY(0); opacity: 1;}
-  100% {transform: translateY(-600px); opacity: 0;}
-}
-
 #valentineText {
   font-family: 'Pacifico', cursive;
   font-size: 2em;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   color: #ff0011;
   animation: fadeInText 2s ease forwards;
 }
@@ -73,16 +61,64 @@ button:hover {
   animation: fadeInText 2s ease forwards;
 }
 
-#slideshow img, #slideshow video {
-  width: 300px;
-  border-radius: 15px;
-  max-height: 300px;
-  transition: transform 0.5s ease, opacity 0.8s ease;
+#slideshowContainer {
+  width: 320px;
+  height: 320px;
+  position: relative;
+  margin-top: 20px;
+  overflow: hidden;
 }
 
-#slideshow img:hover, #slideshow video:hover {
-  transform: scale(1.05);
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 320px;
+  object-fit: cover;
+  clip-path: polygon(
+    50% 0%, 61% 14%, 75% 14%, 85% 25%, 90% 40%, 75% 60%, 
+    50% 80%, 25% 60%, 10% 40%, 15% 25%, 25% 14%, 39% 14%
+  );
+  opacity: 0;
 }
+
+#sparkles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: sparkleMove 4s linear infinite;
+}
+
+@keyframes sparkleMove {
+  0% { transform: translateY(0) scale(1);}
+  100% { transform: translateY(-400px) scale(0.5);}
+}
+
+.heart {
+  position: absolute;
+  color: red;
+  font-size: 20px;
+  animation: float 6s infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0); opacity: 1;}
+  100% {transform: translateY(-600px); opacity: 0;}
+}
+
 </style>
 </head>
 <body>
@@ -104,16 +140,16 @@ button:hover {
     <source src="song.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Valentine Text -->
+  <!-- Fixed Text -->
   <h2 id="valentineText">❤️ Happy Valentine’s Day ❤️</h2>
-
   <h1>Hey My Love ❤️</h1>
   <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
   <button onclick="enterWorld()">Enter Our World ✨</button>
 
-  <!-- Slideshow -->
-  <div id="slideshow" style="margin-top:20px;">
-    <img id="slideMedia" src="image1.jpeg">
+  <!-- Slideshow Container -->
+  <div id="slideshowContainer">
+    <div id="sparkles"></div>
+    <!-- Slides will be injected here -->
   </div>
 </div>
 
@@ -129,13 +165,13 @@ function checkPassword() {
   }
 }
 
-// Play music when entering
+// Play music
 function enterWorld() {
   document.getElementById('bgMusic').play();
   alert("More surprises are waiting for you 💕");
 }
 
-// Floating hearts effect
+// Floating hearts
 setInterval(() => {
   let heart = document.createElement("div");
   heart.className = "heart";
@@ -148,53 +184,60 @@ setInterval(() => {
   setTimeout(() => heart.remove(), 6000);
 }, 500);
 
-// Slideshow with images and videos + fade
+// Floating sparkles
+function createSparkles() {
+  const container = document.getElementById("sparkles");
+  for(let i=0;i<30;i++){
+    let s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random()*320+"px";
+    s.style.top = Math.random()*320+"px";
+    s.style.animationDuration = (3+Math.random()*2)+"s";
+    container.appendChild(s);
+  }
+}
+createSparkles();
+
+// Slides
 const slides = [
-  {type:"image", src:"image1.jpeg"}, {type:"image", src:"image2.jpeg"}, {type:"image", src:"image3.jpeg"},
-  {type:"image", src:"image4.jpeg"}, {type:"image", src:"image5.jpeg"}, {type:"image", src:"image6.jpeg"},
-  {type:"image", src:"image7.jpeg"}, {type:"image", src:"image8.jpeg"}, {type:"image", src:"image9.jpeg"},
-  {type:"image", src:"image10.jpeg"}, {type:"image", src:"image11.jpeg"},
-  {type:"video", src:"video1.mp4"}, {type:"video", src:"video2.mp4"}, {type:"video", src:"video3.mp4"}
+  "image1.jpeg","image2.jpeg","image3.jpeg","image4.jpeg","image5.jpeg","image6.jpeg",
+  "image7.jpeg","image8.jpeg","image9.jpeg","image10.jpeg","image11.jpeg",
+  "video1.mp4","video2.mp4","video3.mp4"
 ];
 
-let current = 0;
+let currentSlide = 0;
+const container = document.getElementById("slideshowContainer");
 
-function showSlide(slide) {
-  const container = document.getElementById("slideMedia");
-  // fade out current
-  container.style.opacity = 0;
+function showSlide(index) {
+  // remove previous slide
+  const prev = container.querySelector(".slide");
+  if(prev) prev.remove();
 
-  setTimeout(() => {
-    if(slide.type === "image") {
-      const img = document.createElement("img");
-      img.src = slide.src;
-      img.id = "slideMedia";
-      img.style.width = "300px";
-      img.style.borderRadius = "15px";
-      img.style.transition = "opacity 0.8s ease";
-      container.replaceWith(img);
-    } else if(slide.type === "video") {
-      const video = document.createElement("video");
-      video.src = slide.src;
-      video.id = "slideMedia";
-      video.style.width = "300px";
-      video.style.borderRadius = "15px";
-      video.autoplay = true;
-      video.loop = true;
-      video.muted = true;
-      video.style.transition = "opacity 0.8s ease";
-      container.replaceWith(video);
-    }
-    // fade in new
-    const newContainer = document.getElementById("slideMedia");
-    newContainer.style.opacity = 0;
-    setTimeout(() => newContainer.style.opacity = 1, 50);
-  }, 800);
+  let slideEl;
+  const src = slides[index];
+  if(src.endsWith(".mp4")) {
+    slideEl = document.createElement("video");
+    slideEl.autoplay = true;
+    slideEl.loop = true;
+    slideEl.muted = true;
+  } else {
+    slideEl = document.createElement("img");
+  }
+  slideEl.src = src;
+  slideEl.className = "slide";
+  slideEl.style.opacity = 0;
+  container.appendChild(slideEl);
+
+  // fade in
+  setTimeout(()=>slideEl.style.transition="opacity 1s ease", 50);
+  setTimeout(()=>slideEl.style.opacity=1, 100);
 }
 
-setInterval(() => {
-  current = (current + 1) % slides.length;
-  showSlide(slides[current]);
+// Start slideshow
+showSlide(currentSlide);
+setInterval(()=>{
+  currentSlide = (currentSlide+1)%slides.length;
+  showSlide(currentSlide);
 }, 3500);
 </script>
 
