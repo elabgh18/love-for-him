@@ -1,85 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Our Love Website</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      text-align: center;
-      background: pink;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    .homepage {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 20px;
-    }
-    input {
-      padding: 10px;
-      font-size: 1em;
-      border: none;
-      border-radius: 5px;
-    }
-    button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      font-size: 1em;
-      background: red;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    nav {
-      background: #ff3366;
-      padding: 10px;
-      display: none; /* hidden until password is correct */
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+  overflow: hidden;
+}
+
+#passwordScreen, #ecard {
+  text-align: center;
+}
+
+input[type="password"] {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background: #ff4b5c;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #ff2e44;
+}
+
+.heart {
+  position: absolute;
+  color: red;
+  font-size: 20px;
+  animation: float 6s infinite;
+}
+
+@keyframes float {
+  0% {transform: translateY(0); opacity: 1;}
+  100% {transform: translateY(-600px); opacity: 0;}
+}
+</style>
 </head>
 <body>
-  <div class="homepage">
-    <h1>Happy Valentine's Day ❤️</h1>
-    <p>Enter the secret password to continue:</p>
-    <input type="password" id="passwordInput" placeholder="Password">
-    <button onclick="checkPassword()">Enter</button>
-  </div>
 
-  <nav id="navBar">
-    <a href="photos.html">Photos</a>
-    <a href="videos.html">Videos</a>
-    <a href="ebook.html">Love Story</a>
-    <a href="chat.html">Chat Room</a>
-    <a href="map.html">Our Map</a>
-    <a href="game.html">Mini Game</a>
-  </nav>
+<div id="passwordScreen">
+  <h1>Enter the Secret Code ❤️</h1>
+  <p>Hint: Our special date 🌟</p>
+  <input type="password" id="pwd" placeholder="DD.MM.YYYY">
+  <br>
+  <button onclick="checkPassword()">Enter</button>
+  <p id="error" style="color:red; display:none;">Wrong code! Try again 💔</p>
+</div>
 
-  <script>
-    function checkPassword() {
-      const input = document.getElementById('passwordInput').value;
-      const correctPassword = "YOURPASSWORD"; // replace later
-      if (input === correctPassword) {
-        document.querySelector('.homepage').style.display = 'none';
-        document.getElementById('navBar').style.display = 'block';
-      } else {
-        alert("Wrong password, try again!");
-      }
-    }
-  </script>
+<div id="ecard" style="display:none;">
+  <h1>Hey My Love ❤️</h1>
+  <p id="sentence">Distance can’t stop a love that knows exactly where it belongs.</p>
+  <button onclick="enterWorld()">Enter Our World ✨</button>
+</div>
+
+<script>
+function checkPassword() {
+  const password = document.getElementById('pwd').value;
+  if(password === '13.08.2023') {
+    document.getElementById('passwordScreen').style.display = 'none';
+    document.getElementById('ecard').style.display = 'block';
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+}
+
+function enterWorld() {
+  alert("More surprises are waiting for you 💕");
+}
+
+// Floating hearts effect
+setInterval(() => {
+  let heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerHTML = "❤️";
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.top = "100%";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 500);
+</script>
+
 </body>
 </html>
