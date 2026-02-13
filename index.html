@@ -1,226 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Our World 💖</title>
-
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-/* 💖 Heart Cursor */
-body {
-  cursor: url("https://cur.cursors-4u.net/symbols/sym-1/sym57.cur"), auto;
-  background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
-  overflow: hidden;
-  color: white;
-}
-
-/* 🌸 Landing */
-#ecard {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-#ecard h1 { font-size: 3rem; margin-bottom: 10px; }
-#ecard p { font-size: 1.2rem; margin-bottom: 30px; }
-
-button {
-  padding: 15px 40px;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 30px;
-  background: pink;
-  cursor: pointer;
-  transition: 0.4s;
-}
-button:hover { transform: scale(1.1); }
-
-/* 📖 Slideshow / Book */
-#slideshowContainer {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 450px;
-  perspective: 1200px;
-  opacity: 0;
-}
-
-.slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-  transform-origin: left;
-  animation: pageTurn 18s infinite;
-}
-
-.slide img, .slide video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  animation: zoomMove 18s infinite;
-}
-
-@keyframes zoomMove {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1) translateX(-10px); }
-  100% { transform: scale(1); }
-}
-
-@keyframes pageTurn {
-  0% { transform: rotateY(0deg); opacity: 1; }
-  20% { opacity: 1; }
-  30% { transform: rotateY(-180deg); opacity: 0; }
-  100% { opacity: 0; }
-}
-
-/* ⏳ Countdown */
-#countdown {
-  position: absolute;
-  bottom: 30px;
-  width: 100%;
-  text-align: center;
-  font-size: 1.3rem;
-  opacity: 0;
-}
-
-/* 💌 Secret Message */
-.secret {
-  position: absolute;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  font-size: 1rem;
-  opacity: 0;
-  transition: 0.5s;
-}
-.slide:hover .secret { opacity: 1; }
-
-/* ✨ Floating Hearts */
-.heart {
-  position: absolute;
-  color: pink;
-  font-size: 20px;
-  animation: float 6s linear infinite;
-}
-@keyframes float {
-  0% { transform: translateY(100vh); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Our Love Website</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: pink;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    .homepage {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav {
+      background: #ff3366;
+      padding: 10px;
+      display: none; /* hidden until password is correct */
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="homepage">
+    <h1>Happy Valentine's Day ❤️</h1>
+    <p>Enter the secret password to continue:</p>
+    <input type="password" id="passwordInput" placeholder="Password">
+    <button onclick="checkPassword()">Enter</button>
+  </div>
 
-<audio id="bgMusic" src="song.mp3"></audio>
+  <nav id="navBar">
+    <a href="photos.html">Photos</a>
+    <a href="videos.html">Videos</a>
+    <a href="ebook.html">Love Story</a>
+    <a href="chat.html">Chat Room</a>
+    <a href="map.html">Our Map</a>
+    <a href="game.html">Mini Game</a>
+  </nav>
 
-<div id="ecard">
-  <h1>For You 💖</h1>
-  <p>Welcome to our little world</p>
-  <button onclick="enterWorld()">Enter Our World ✨</button>
-</div>
-
-<!-- 📖 Slideshow -->
-<div id="slideshowContainer">
-  <!-- Images -->
-  <div class="slide" style="animation-delay:0s">
-    <img src="image1.jpeg">
-    <div class="secret" onclick="alert('You are my favorite chapter ❤️')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:3s">
-    <img src="image2.jpeg">
-    <div class="secret" onclick="alert('Every moment with you matters 💫')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:6s">
-    <img src="image3.jpeg">
-    <div class="secret" onclick="alert('Forever starts with us 💍')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:9s">
-    <img src="image4.jpeg">
-    <div class="secret" onclick="alert('I smile every time I see you 🥰')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:12s">
-    <img src="image5.jpeg">
-    <div class="secret" onclick="alert('Our memories are treasures 💖')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:15s">
-    <img src="image6.jpeg">
-    <div class="secret" onclick="alert('You make my heart full 💓')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:18s">
-    <img src="image7.jpeg">
-    <div class="secret" onclick="alert('Every day is better with you 🌟')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:21s">
-    <video src="video1.mp4" autoplay muted loop></video>
-    <div class="secret" onclick="alert('Distance means nothing 💞')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:24s">
-    <video src="video2.mp4" autoplay muted loop></video>
-    <div class="secret" onclick="alert('Our love grows every day ❤️')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:27s">
-    <video src="video3.mp4" autoplay muted loop></video>
-    <div class="secret" onclick="alert('Can’t wait to hug you 🥹')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:30s">
-    <img src="image8.jpeg">
-    <div class="secret" onclick="alert('This page is dedicated to you 💗')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:33s">
-    <img src="image9.jpeg">
-    <div class="secret" onclick="alert('Our story is my favorite book 📖')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:36s">
-    <img src="image10.jpeg">
-    <div class="secret" onclick="alert('I fall in love with you again 💘')">💌 tap me</div>
-  </div>
-  <div class="slide" style="animation-delay:39s">
-    <img src="image11.jpeg">
-    <div class="secret" onclick="alert('You are my everything 💞')">💌 tap me</div>
-  </div>
-</div>
-
-<div id="countdown">⏳ Our time together keeps growing…</div>
-
-<script>
-function enterWorld() {
-  document.getElementById("bgMusic").play();
-
-  // Fade out landing page
-  document.getElementById("ecard").style.opacity = 0;
-  setTimeout(() => { document.getElementById("ecard").style.display = "none"; }, 1500);
-
-  // Show slideshow + countdown
-  document.getElementById("slideshowContainer").style.opacity = 1;
-  document.getElementById("countdown").style.opacity = 1;
-
-  // Start hearts
-  createHearts();
-}
-
-// 💕 Floating Hearts
-function createHearts() {
-  setInterval(() => {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-  }, 400);
-}
-</script>
-
+  <script>
+    function checkPassword() {
+      const input = document.getElementById('passwordInput').value;
+      const correctPassword = "YOURPASSWORD"; // replace later
+      if (input === correctPassword) {
+        document.querySelector('.homepage').style.display = 'none';
+        document.getElementById('navBar').style.display = 'block';
+      } else {
+        alert("Wrong password, try again!");
+      }
+    }
+  </script>
 </body>
 </html>
