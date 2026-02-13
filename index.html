@@ -2,203 +2,202 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title>
+<title>Our World 💖</title>
 
 <style>
 * {
-  box-sizing: border-box;
-}
-
-body {
   margin: 0;
-  height: 100vh;
-  background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-  font-family: 'Arial', sans-serif;
-  overflow: hidden;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><text y='20' font-size='20'>❤️</text></svg>"), auto;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* ---------- FIXED TEXT ---------- */
-.header {
-  position: fixed;
-  top: 30px;
-  width: 100%;
-  text-align: center;
-  z-index: 10;
+/* 💖 Heart Cursor */
+body {
+  cursor: url("https://cur.cursors-4u.net/symbols/sym-1/sym57.cur"), auto;
+  background: linear-gradient(120deg, #0f0c29, #302b63, #24243e);
+  overflow: hidden;
   color: white;
 }
 
-.header h1 {
-  font-size: 40px;
-  margin: 0;
+/* 🌸 Landing */
+#ecard {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.header h2 {
-  font-size: 26px;
-  margin: 10px 0;
+#ecard h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
-.header p {
-  font-size: 18px;
-  opacity: 0.9;
+#ecard p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
 }
 
-/* ---------- BOOK SLIDES ---------- */
-.book {
+button {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 30px;
+  background: pink;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* 📖 Slideshow */
+#slideshowContainer {
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 70vw;
-  max-width: 900px;
-  height: 60vh;
-  perspective: 1500px;
+  width: 320px;
+  height: 450px;
+  perspective: 1200px;
+  opacity: 0;
 }
 
 .slide {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: black;
-  border-radius: 20px;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
-  transform-origin: left center;
-  animation: turn 36s infinite;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  transform-origin: left;
+  animation: pageTurn 18s infinite;
 }
 
-.slide img,
-.slide video {
+.slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: zoom 6s ease-in-out infinite;
+  animation: zoomMove 18s infinite;
 }
 
-/* ---------- SECRET MESSAGE ---------- */
+/* 🎥 Zoom / Pan */
+@keyframes zoomMove {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1) translateX(-10px); }
+  100% { transform: scale(1); }
+}
+
+/* 📖 Page Turn */
+@keyframes pageTurn {
+  0% { transform: rotateY(0deg); opacity: 1; }
+  20% { opacity: 1; }
+  30% { transform: rotateY(-180deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ⏳ Countdown */
+#countdown {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  opacity: 0;
+}
+
+/* 💌 Secret Message */
 .secret {
   position: absolute;
-  bottom: 25px;
-  right: 25px;
-  background: rgba(255,255,255,0.85);
-  padding: 10px 15px;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0;
+  transition: 0.5s;
 }
 
-/* ---------- ANIMATIONS ---------- */
-@keyframes turn {
-  0% {transform: rotateY(0deg);}
-  20% {transform: rotateY(0deg);}
-  30% {transform: rotateY(-180deg);}
-  100% {transform: rotateY(-180deg);}
+.slide:hover .secret {
+  opacity: 1;
 }
 
-@keyframes zoom {
-  0% {transform: scale(1);}
-  100% {transform: scale(1.08);}
-}
-
-/* ---------- PASSWORD ---------- */
-#passwordScreen {
+/* ✨ Floating Hearts */
+.heart {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 20;
+  color: pink;
+  font-size: 20px;
+  animation: float 6s linear infinite;
 }
 
-input {
-  padding: 12px;
-  border-radius: 20px;
-  border: none;
-  font-size: 16px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 12px 30px;
-  border-radius: 30px;
-  border: none;
-  background: #ff4b5c;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#error {
-  color: red;
-  margin-top: 10px;
-  display: none;
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD -->
-<div id="passwordScreen">
-  <h1>Enter the Secret ❤️</h1>
-  <input type="password" id="pwd" placeholder="DD.MM.YYYY">
-  <button onclick="check()">Enter</button>
-  <div id="error">Wrong code 💔</div>
+<audio id="bgMusic" src="song.mp3"></audio>
+
+<div id="ecard">
+  <h1>For You 💖</h1>
+  <p>Welcome to our little world</p>
+  <button onclick="enterWorld()">Enter Our World ✨</button>
 </div>
 
-<!-- FIXED TEXT -->
-<div class="header">
-  <h1>❤️ Happy Valentine’s Day ❤️</h1>
-  <h2>Hey Baby</h2>
-  <p>Every page of my life turns back to you.</p>
+<!-- 📖 Slideshow -->
+<div id="slideshowContainer">
+  <div class="slide" style="animation-delay:0s">
+    <img src="images/1.jpg">
+    <div class="secret">You are my favorite chapter ❤️</div>
+  </div>
+
+  <div class="slide" style="animation-delay:6s">
+    <img src="images/2.jpg">
+    <div class="secret">Every moment with you matters 💫</div>
+  </div>
+
+  <div class="slide" style="animation-delay:12s">
+    <img src="images/3.jpg">
+    <div class="secret">Forever starts with us 💍</div>
+  </div>
 </div>
 
-<!-- BOOK -->
-<div class="book">
-
-  <div class="slide" style="animation-delay:0s;">
-    <img src="image1.jpeg">
-    <div class="secret" onclick="alert('This moment lives in my heart forever ❤️')">💌 tap me</div>
-  </div>
-
-  <div class="slide" style="animation-delay:6s;">
-    <img src="image2.jpeg">
-    <div class="secret" onclick="alert('I smiled without knowing why… then I remembered you 🥹')">💌 tap me</div>
-  </div>
-
-  <div class="slide" style="animation-delay:12s;">
-    <video src="video1.mp4" autoplay muted loop></video>
-    <div class="secret" onclick="alert('Distance means nothing when hearts are close 💞')">💌 tap me</div>
-  </div>
-
-  <div class="slide" style="animation-delay:18s;">
-    <img src="image3.jpeg">
-    <div class="secret" onclick="alert('This chapter is my favorite because it has YOU')">💌 tap me</div>
-  </div>
-
-  <div class="slide" style="animation-delay:24s;">
-    <video src="video2.mp4" autoplay muted loop></video>
-    <div class="secret" onclick="alert('One day this won’t be a screen… it’ll be real 💍')">💌 tap me</div>
-  </div>
-
-  <div class="slide" style="animation-delay:30s;">
-    <img src="image4.jpeg">
-    <div class="secret" onclick="alert('No matter the page, I choose you every time ❤️')">💌 tap me</div>
-  </div>
-
+<div id="countdown">
+  ⏳ Our time together keeps growing…
 </div>
-
-<audio src="song.mp3" autoplay loop></audio>
 
 <script>
-function check() {
-  if (document.getElementById("pwd").value === "13.08.2023") {
-    document.getElementById("passwordScreen").style.display = "none";
-  } else {
-    document.getElementById("error").style.display = "block";
-  }
+function enterWorld() {
+  document.getElementById("bgMusic").play();
+
+  document.getElementById("ecard").style.opacity = 0;
+  setTimeout(() => {
+    document.getElementById("ecard").style.display = "none";
+  }, 1500);
+
+  document.getElementById("slideshowContainer").style.opacity = 1;
+  document.getElementById("countdown").style.opacity = 1;
+
+  createHearts();
+}
+
+/* 💕 Floating Hearts */
+function createHearts() {
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 400);
 }
 </script>
 
